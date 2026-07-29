@@ -1,0 +1,758 @@
+[
+ {
+  "id": "PubchemFP12",
+  "block": "PubchemFP",
+  "bit": 12,
+  "col": 3330
+ },
+ {
+  "id": "ExtFP1013",
+  "block": "ExtFP",
+  "bit": 1013,
+  "col": 2037
+ },
+ {
+  "id": "ExtFP1012",
+  "block": "ExtFP",
+  "bit": 1012,
+  "col": 2036
+ },
+ {
+  "id": "PubchemFP192",
+  "block": "PubchemFP",
+  "bit": 192,
+  "col": 3510
+ },
+ {
+  "id": "GraphFP382",
+  "block": "GraphFP",
+  "bit": 382,
+  "col": 2509
+ },
+ {
+  "id": "ExtFP1016",
+  "block": "ExtFP",
+  "bit": 1016,
+  "col": 2040
+ },
+ {
+  "id": "PubchemFP199",
+  "block": "PubchemFP",
+  "bit": 199,
+  "col": 3517
+ },
+ {
+  "id": "ExtFP1015",
+  "block": "ExtFP",
+  "bit": 1015,
+  "col": 2039
+ },
+ {
+  "id": "MACCSFP105",
+  "block": "MACCSFP",
+  "bit": 105,
+  "col": 3256
+ },
+ {
+  "id": "FP799",
+  "block": "FP",
+  "bit": 799,
+  "col": 799
+ },
+ {
+  "id": "PubchemFP189",
+  "block": "PubchemFP",
+  "bit": 189,
+  "col": 3507
+ },
+ {
+  "id": "GraphFP522",
+  "block": "GraphFP",
+  "bit": 522,
+  "col": 2649
+ },
+ {
+  "id": "FP860",
+  "block": "FP",
+  "bit": 860,
+  "col": 860
+ },
+ {
+  "id": "PubchemFP696",
+  "block": "PubchemFP",
+  "bit": 696,
+  "col": 4014
+ },
+ {
+  "id": "GraphFP520",
+  "block": "GraphFP",
+  "bit": 520,
+  "col": 2647
+ },
+ {
+  "id": "FP225",
+  "block": "FP",
+  "bit": 225,
+  "col": 225
+ },
+ {
+  "id": "FP204",
+  "block": "FP",
+  "bit": 204,
+  "col": 204
+ },
+ {
+  "id": "ExtFP1017",
+  "block": "ExtFP",
+  "bit": 1017,
+  "col": 2041
+ },
+ {
+  "id": "ExtFP724",
+  "block": "ExtFP",
+  "bit": 724,
+  "col": 1748
+ },
+ {
+  "id": "ExtFP331",
+  "block": "ExtFP",
+  "bit": 331,
+  "col": 1355
+ },
+ {
+  "id": "ExtFP302",
+  "block": "ExtFP",
+  "bit": 302,
+  "col": 1326
+ },
+ {
+  "id": "GraphFP534",
+  "block": "GraphFP",
+  "bit": 534,
+  "col": 2661
+ },
+ {
+  "id": "ExtFP968",
+  "block": "ExtFP",
+  "bit": 968,
+  "col": 1992
+ },
+ {
+  "id": "FP952",
+  "block": "FP",
+  "bit": 952,
+  "col": 952
+ },
+ {
+  "id": "FP851",
+  "block": "FP",
+  "bit": 851,
+  "col": 851
+ },
+ {
+  "id": "FP475",
+  "block": "FP",
+  "bit": 475,
+  "col": 475
+ },
+ {
+  "id": "PubchemFP697",
+  "block": "PubchemFP",
+  "bit": 697,
+  "col": 4015
+ },
+ {
+  "id": "PubchemFP185",
+  "block": "PubchemFP",
+  "bit": 185,
+  "col": 3503
+ },
+ {
+  "id": "MACCSFP145",
+  "block": "MACCSFP",
+  "bit": 145,
+  "col": 3296
+ },
+ {
+  "id": "FP302",
+  "block": "FP",
+  "bit": 302,
+  "col": 302
+ },
+ {
+  "id": "GraphFP837",
+  "block": "GraphFP",
+  "bit": 837,
+  "col": 2964
+ },
+ {
+  "id": "GraphFP554",
+  "block": "GraphFP",
+  "bit": 554,
+  "col": 2681
+ },
+ {
+  "id": "GraphFP175",
+  "block": "GraphFP",
+  "bit": 175,
+  "col": 2302
+ },
+ {
+  "id": "ExtFP766",
+  "block": "ExtFP",
+  "bit": 766,
+  "col": 1790
+ },
+ {
+  "id": "ExtFP441",
+  "block": "ExtFP",
+  "bit": 441,
+  "col": 1465
+ },
+ {
+  "id": "ExtFP340",
+  "block": "ExtFP",
+  "bit": 340,
+  "col": 1364
+ },
+ {
+  "id": "FP76",
+  "block": "FP",
+  "bit": 76,
+  "col": 76
+ },
+ {
+  "id": "FP719",
+  "block": "FP",
+  "bit": 719,
+  "col": 719
+ },
+ {
+  "id": "FP704",
+  "block": "FP",
+  "bit": 704,
+  "col": 704
+ },
+ {
+  "id": "FP523",
+  "block": "FP",
+  "bit": 523,
+  "col": 523
+ },
+ {
+  "id": "FP453",
+  "block": "FP",
+  "bit": 453,
+  "col": 453
+ },
+ {
+  "id": "PubchemFP798",
+  "block": "PubchemFP",
+  "bit": 798,
+  "col": 4116
+ },
+ {
+  "id": "PubchemFP699",
+  "block": "PubchemFP",
+  "bit": 699,
+  "col": 4017
+ },
+ {
+  "id": "PubchemFP196",
+  "block": "PubchemFP",
+  "bit": 196,
+  "col": 3514
+ },
+ {
+  "id": "PubchemFP13",
+  "block": "PubchemFP",
+  "bit": 13,
+  "col": 3331
+ },
+ {
+  "id": "GraphFP892",
+  "block": "GraphFP",
+  "bit": 892,
+  "col": 3019
+ },
+ {
+  "id": "GraphFP717",
+  "block": "GraphFP",
+  "bit": 717,
+  "col": 2844
+ },
+ {
+  "id": "GraphFP465",
+  "block": "GraphFP",
+  "bit": 465,
+  "col": 2592
+ },
+ {
+  "id": "GraphFP319",
+  "block": "GraphFP",
+  "bit": 319,
+  "col": 2446
+ },
+ {
+  "id": "GraphFP286",
+  "block": "GraphFP",
+  "bit": 286,
+  "col": 2413
+ },
+ {
+  "id": "ExtFP920",
+  "block": "ExtFP",
+  "bit": 920,
+  "col": 1944
+ },
+ {
+  "id": "ExtFP511",
+  "block": "ExtFP",
+  "bit": 511,
+  "col": 1535
+ },
+ {
+  "id": "ExtFP424",
+  "block": "ExtFP",
+  "bit": 424,
+  "col": 1448
+ },
+ {
+  "id": "ExtFP292",
+  "block": "ExtFP",
+  "bit": 292,
+  "col": 1316
+ },
+ {
+  "id": "ExtFP283",
+  "block": "ExtFP",
+  "bit": 283,
+  "col": 1307
+ },
+ {
+  "id": "ExtFP187",
+  "block": "ExtFP",
+  "bit": 187,
+  "col": 1211
+ },
+ {
+  "id": "FP893",
+  "block": "FP",
+  "bit": 893,
+  "col": 893
+ },
+ {
+  "id": "FP866",
+  "block": "FP",
+  "bit": 866,
+  "col": 866
+ },
+ {
+  "id": "FP744",
+  "block": "FP",
+  "bit": 744,
+  "col": 744
+ },
+ {
+  "id": "FP727",
+  "block": "FP",
+  "bit": 727,
+  "col": 727
+ },
+ {
+  "id": "PubchemFP688",
+  "block": "PubchemFP",
+  "bit": 688,
+  "col": 4006
+ },
+ {
+  "id": "PubchemFP341",
+  "block": "PubchemFP",
+  "bit": 341,
+  "col": 3659
+ },
+ {
+  "id": "MACCSFP152",
+  "block": "MACCSFP",
+  "bit": 152,
+  "col": 3303
+ },
+ {
+  "id": "GraphFP819",
+  "block": "GraphFP",
+  "bit": 819,
+  "col": 2946
+ },
+ {
+  "id": "GraphFP791",
+  "block": "GraphFP",
+  "bit": 791,
+  "col": 2918
+ },
+ {
+  "id": "GraphFP462",
+  "block": "GraphFP",
+  "bit": 462,
+  "col": 2589
+ },
+ {
+  "id": "GraphFP411",
+  "block": "GraphFP",
+  "bit": 411,
+  "col": 2538
+ },
+ {
+  "id": "FP193",
+  "block": "FP",
+  "bit": 193,
+  "col": 193
+ },
+ {
+  "id": "ExtFP409",
+  "block": "ExtFP",
+  "bit": 409,
+  "col": 1433
+ },
+ {
+  "id": "ExtFP405",
+  "block": "ExtFP",
+  "bit": 405,
+  "col": 1429
+ },
+ {
+  "id": "ExtFP299",
+  "block": "ExtFP",
+  "bit": 299,
+  "col": 1323
+ },
+ {
+  "id": "ExtFP221",
+  "block": "ExtFP",
+  "bit": 221,
+  "col": 1245
+ },
+ {
+  "id": "ExtFP161",
+  "block": "ExtFP",
+  "bit": 161,
+  "col": 1185
+ },
+ {
+  "id": "ExtFP138",
+  "block": "ExtFP",
+  "bit": 138,
+  "col": 1162
+ },
+ {
+  "id": "ExtFP76",
+  "block": "ExtFP",
+  "bit": 76,
+  "col": 1100
+ },
+ {
+  "id": "FP766",
+  "block": "FP",
+  "bit": 766,
+  "col": 766
+ },
+ {
+  "id": "FP764",
+  "block": "FP",
+  "bit": 764,
+  "col": 764
+ },
+ {
+  "id": "FP589",
+  "block": "FP",
+  "bit": 589,
+  "col": 589
+ },
+ {
+  "id": "PubchemFP735",
+  "block": "PubchemFP",
+  "bit": 735,
+  "col": 4053
+ },
+ {
+  "id": "MACCSFP125",
+  "block": "MACCSFP",
+  "bit": 125,
+  "col": 3276
+ },
+ {
+  "id": "GraphFP684",
+  "block": "GraphFP",
+  "bit": 684,
+  "col": 2811
+ },
+ {
+  "id": "FP274",
+  "block": "FP",
+  "bit": 274,
+  "col": 274
+ },
+ {
+  "id": "GraphFP320",
+  "block": "GraphFP",
+  "bit": 320,
+  "col": 2447
+ },
+ {
+  "id": "GraphFP298",
+  "block": "GraphFP",
+  "bit": 298,
+  "col": 2425
+ },
+ {
+  "id": "GraphFP31",
+  "block": "GraphFP",
+  "bit": 31,
+  "col": 2158
+ },
+ {
+  "id": "ExtFP1011",
+  "block": "ExtFP",
+  "bit": 1011,
+  "col": 2035
+ },
+ {
+  "id": "FP173",
+  "block": "FP",
+  "bit": 173,
+  "col": 173
+ },
+ {
+  "id": "ExtFP659",
+  "block": "ExtFP",
+  "bit": 659,
+  "col": 1683
+ },
+ {
+  "id": "ExtFP652",
+  "block": "ExtFP",
+  "bit": 652,
+  "col": 1676
+ },
+ {
+  "id": "ExtFP634",
+  "block": "ExtFP",
+  "bit": 634,
+  "col": 1658
+ },
+ {
+  "id": "ExtFP611",
+  "block": "ExtFP",
+  "bit": 611,
+  "col": 1635
+ },
+ {
+  "id": "ExtFP597",
+  "block": "ExtFP",
+  "bit": 597,
+  "col": 1621
+ },
+ {
+  "id": "ExtFP591",
+  "block": "ExtFP",
+  "bit": 591,
+  "col": 1615
+ },
+ {
+  "id": "ExtFP416",
+  "block": "ExtFP",
+  "bit": 416,
+  "col": 1440
+ },
+ {
+  "id": "ExtFP391",
+  "block": "ExtFP",
+  "bit": 391,
+  "col": 1415
+ },
+ {
+  "id": "ExtFP386",
+  "block": "ExtFP",
+  "bit": 386,
+  "col": 1410
+ },
+ {
+  "id": "ExtFP369",
+  "block": "ExtFP",
+  "bit": 369,
+  "col": 1393
+ },
+ {
+  "id": "ExtFP350",
+  "block": "ExtFP",
+  "bit": 350,
+  "col": 1374
+ },
+ {
+  "id": "FP130",
+  "block": "FP",
+  "bit": 130,
+  "col": 130
+ },
+ {
+  "id": "ExtFP193",
+  "block": "ExtFP",
+  "bit": 193,
+  "col": 1217
+ },
+ {
+  "id": "ExtFP80",
+  "block": "ExtFP",
+  "bit": 80,
+  "col": 1104
+ },
+ {
+  "id": "FP1015",
+  "block": "FP",
+  "bit": 1015,
+  "col": 1015
+ },
+ {
+  "id": "FP988",
+  "block": "FP",
+  "bit": 988,
+  "col": 988
+ },
+ {
+  "id": "FP922",
+  "block": "FP",
+  "bit": 922,
+  "col": 922
+ },
+ {
+  "id": "KRFP2986",
+  "block": "KRFP",
+  "bit": 2986,
+  "col": 7491
+ },
+ {
+  "id": "FP533",
+  "block": "FP",
+  "bit": 533,
+  "col": 533
+ },
+ {
+  "id": "FP444",
+  "block": "FP",
+  "bit": 444,
+  "col": 444
+ },
+ {
+  "id": "FP438",
+  "block": "FP",
+  "bit": 438,
+  "col": 438
+ },
+ {
+  "id": "FP410",
+  "block": "FP",
+  "bit": 410,
+  "col": 410
+ },
+ {
+  "id": "FP325",
+  "block": "FP",
+  "bit": 325,
+  "col": 325
+ },
+ {
+  "id": "MACCSFP99",
+  "block": "MACCSFP",
+  "bit": 99,
+  "col": 3250
+ },
+ {
+  "id": "GraphFP893",
+  "block": "GraphFP",
+  "bit": 893,
+  "col": 3020
+ },
+ {
+  "id": "GraphFP731",
+  "block": "GraphFP",
+  "bit": 731,
+  "col": 2858
+ },
+ {
+  "id": "GraphFP455",
+  "block": "GraphFP",
+  "bit": 455,
+  "col": 2582
+ },
+ {
+  "id": "GraphFP318",
+  "block": "GraphFP",
+  "bit": 318,
+  "col": 2445
+ },
+ {
+  "id": "GraphFP255",
+  "block": "GraphFP",
+  "bit": 255,
+  "col": 2382
+ },
+ {
+  "id": "ExtFP883",
+  "block": "ExtFP",
+  "bit": 883,
+  "col": 1907
+ },
+ {
+  "id": "ExtFP752",
+  "block": "ExtFP",
+  "bit": 752,
+  "col": 1776
+ },
+ {
+  "id": "ExtFP530",
+  "block": "ExtFP",
+  "bit": 530,
+  "col": 1554
+ },
+ {
+  "id": "ExtFP408",
+  "block": "ExtFP",
+  "bit": 408,
+  "col": 1432
+ },
+ {
+  "id": "ExtFP399",
+  "block": "ExtFP",
+  "bit": 399,
+  "col": 1423
+ },
+ {
+  "id": "FP139",
+  "block": "FP",
+  "bit": 139,
+  "col": 139
+ },
+ {
+  "id": "ExtFP238",
+  "block": "ExtFP",
+  "bit": 238,
+  "col": 1262
+ },
+ {
+  "id": "ExtFP160",
+  "block": "ExtFP",
+  "bit": 160,
+  "col": 1184
+ },
+ {
+  "id": "ExtFP102",
+  "block": "ExtFP",
+  "bit": 102,
+  "col": 1126
+ },
+ {
+  "id": "ExtFP95",
+  "block": "ExtFP",
+  "bit": 95,
+  "col": 1119
+ }
+]
