@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>local.cancerin</groupId>
+  <artifactId>engine</artifactId>
+  <version>1.0</version>
+  <packaging>jar</packaging>
+
+  <properties>
+    <maven.compiler.source>11</maven.compiler.source>
+    <maven.compiler.target>11</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <teavm.version>0.15.0</teavm.version>
+    <teavm.minify>true</teavm.minify>
+  </properties>
+
+  <!-- The CDK 1.4.6 and PaDEL jars ship with this repo and are not on Maven
+       Central. Install them once with:
+         mvn install:install-file -Dfile=lib/cdk-1.4.6.jar \
+             -DgroupId=local.cancerin -DartifactId=cdk -Dversion=1.4.6 -Dpackaging=jar
+       (likewise libpadel-descriptor, vecmath, jgrapht, xom) -->
+  <dependencies>
+    <dependency>
+      <groupId>local.cancerin</groupId><artifactId>libpadel-descriptor</artifactId><version>1.0</version>
+    </dependency>
+    <dependency>
+      <groupId>local.cancerin</groupId><artifactId>vecmath</artifactId><version>1.14</version>
+    </dependency>
+    <dependency>
+      <groupId>local.cancerin</groupId><artifactId>jgrapht</artifactId><version>0.6.0</version>
+    </dependency>
+    <dependency>
+      <groupId>local.cancerin</groupId><artifactId>xom</artifactId><version>1.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.teavm</groupId>
+      <artifactId>teavm-jso-apis</artifactId>
+      <version>${teavm.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.ow2.asm</groupId><artifactId>asm-commons</artifactId><version>9.8</version>
+      <scope>provided</scope>
+    </dependency>
+    <!-- TeaVM's emulated JCL. Without it TeaVM cannot even resolve
+         java.lang.Object when compiling to JavaScript. -->
+    <dependency>
+      <groupId>org.teavm</groupId>
+      <artifactId>teavm-classlib</artifactId>
+      <version>${teavm.version}</version>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>3.1.0</version>
+      </plugin>
+    </plugins>
+  </build>
+
+  <profiles>
+    <!-- Stock CDK. Active by default; cancerin.build.GenerateTables needs the
+         real XML/SAX AtomTypeFactory to produce the table the patch serves. -->
+    <profile>
+      <id>stock</id>
+      <activation><activeByDefault>true</activeByDefault></activation>
+      <dependencies>
+        <dependency>
+          <groupId>local.cancerin</groupId><artifactId>cdk</artifactId><version>1.4.6</version>
+        </dependency>
+      </dependencies>
+    </profile>
+
+    <!-- TeaVM-compatible CDK, built by tools/build-cdk-teavm.sh. Activating any
+         profile disables `stock`, so this cleanly swaps the jar.
+           mvn -Ppatched exec:java ...   validate the patch changes no bits
+           mvn -Ppatched,web package     compile to JavaScript -->
+    <profile>
+      <id>patched</id>
+      <dependencies>
+        <dependency>
+          <groupId>local.cancerin</groupId><artifactId>cdk-teavm</artifactId><version>1.4.6</version>
+        </dependency>
+      </dependencies>
+    </profile>
+
+    <profile>
+      <id>web</id>
+      <dependencies>
+        <dependency>
+          <groupId>local.cancerin</groupId><artifactId>cdk-teavm</artifactId><version>1.4.6</version>
+        </dependency>
+      </dependencies>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.teavm</groupId>
+            <artifactId>teavm-maven-plugin</artifactId>
+            <version>${teavm.version}</version>
+            <executions>
+              <execution>
+                <id>web-client</id>
+                <phase>prepare-package</phase>
+                <goals><goal>compile</goal></goals>
+                <configuration>
+                  <mainClass>cancerin.Web</mainClass>
+                  <targetType>JAVASCRIPT</targetType>
+                  <targetDirectory>${project.build.directory}/js</targetDirectory>
+                  <targetFileName>cancerin-engine.js</targetFileName>
+                  <optimizationLevel>ADVANCED</optimizationLevel>
+                  <minifying>${teavm.minify}</minifying>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+</project>
