@@ -1,58 +1,43 @@
-# Byte-compiled / optimized / DLL files
-__pycache__/
-*.py[cod]
-*$py.class
+# NOTE: the previous .gitignore contained a bare `lib/` (inherited from a Python
+# template), which silently excluded lib/ — the CDK 1.4.6 and PaDEL jars. Those
+# are required to build the fingerprint engine and must stay tracked. Do not
+# reintroduce a bare `lib/` rule.
 
-# C extensions
-*.so
+# ---- build output ----------------------------------------------------------
+# engine/prebuilt/ is deliberately NOT ignored: it holds the compiled engine so
+# the app can be built with Node alone, without a JDK, Maven or lib/.
+engine/target/
+webapp/dist/
+webapp/node_modules/
 
-# Distribution / packaging
-.Python
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-share/python-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-MANIFEST
+# Copied into the webapp by webapp/scripts/sync-assets.mjs
+webapp/public/engine/
+webapp/public/data/
+webapp/src/lib/scoring.generated.js
 
-# PyInstaller
-#  Usually these files are written by a python script run within a local box
-*.manifest
-*.spec
+# Verification screenshots
+webapp/shot-*.png
 
-# Installer logs
-pip-log.txt
-pip-delete-this-directory.txt
+# ---- generated data --------------------------------------------------------
+# data/ is rebuilt by tools/build-data.mjs from cancerin-fingerprint + ids.cpk.
+# data/column-order.json and data/probes* are NOT ignored: they needed PubChem
+# access and a PaDEL run to produce, so they are tracked deliberately.
+data/background.bin
+data/background-raw.bin
+data/annotations.json
 
-# Unit test / coverage reports
-htmlcov/
-.tox/
-.nosetests
-.gcov
-.cache
-nosetests.xml
-coverage.xml
-*.cover
-*.log
-.hypothesis/
-.pytest_cache/
-
-# OS files
-.DS_Store
-Thumbs.db
-
-# Cancerin Temporary Outputs / Run Files
+# ---- legacy run artifacts --------------------------------------------------
+cancerin_out
+padel_test.csv
 tc1
 tc0
 queryfp
-cancerin_out
+
+# ---- local tooling ---------------------------------------------------------
+.claude/
+
+# ---- editor / OS -----------------------------------------------------------
+.DS_Store
+Thumbs.db
+.~lock.*#
+*.log
