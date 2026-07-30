@@ -3,6 +3,7 @@
   import PredictorWorker from "./lib/predictor.worker.js?worker&inline";
   import ProgressPanel from "./components/ProgressPanel.svelte";
   import ResultsTable from "./components/ResultsTable.svelte";
+  import MethodSection from "./components/MethodSection.svelte";
   import { formatClock } from "./lib/format.js";
   import { SvelteMap } from "svelte/reactivity";
 
@@ -206,6 +207,8 @@
   {#if phase === "loading" || phase === "running"}
     <ProgressPanel {phase} {loading} {run} onCancel={phase === "running" ? cancel : null} />
   {/if}
+
+  <MethodSection />
 
   {#if rows.length}
     <section class="results">

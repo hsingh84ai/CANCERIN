@@ -53,6 +53,24 @@ if (!appScript) {
   process.exit(1);
 }
 
+// ---- inline emitted binary assets (figures) as data URIs --------------------
+// The hosted build keeps these as separate cacheable files; the single file
+// cannot, so fold them into the script that references them.
+const MIME = { webp: "image/webp", png: "image/png", jpg: "image/jpeg", jpeg: "image/jpeg", gif: "image/gif", svg: "image/svg+xml" };
+let inlinedAssets = 0;
+let inlinedBytes = 0;
+for (const file of fs.readdirSync(path.join(DIST, "assets"))) {
+  const ext = path.extname(file).slice(1).toLowerCase();
+  if (!MIME[ext]) continue;
+  if (!appScript.includes(file)) continue;
+  const bytes = fs.readFileSync(path.join(DIST, "assets", file));
+  const uri = `data:${MIME[ext]};base64,${bytes.toString("base64")}`;
+  appScript = appScript.split(file).join(uri);
+  inlinedAssets++;
+  inlinedBytes += bytes.length;
+}
+if (inlinedAssets) console.log(`  figures       ${kb(inlinedBytes)} in ${inlinedAssets} file(s), inlined`);
+
 // ---- the three data payloads ------------------------------------------------
 const engine = read(path.join(DIST, "engine", "cancerin-engine.js"));
 const annotations = read(path.join(DIST, "data", "annotations.json"));

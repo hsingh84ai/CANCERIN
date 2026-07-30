@@ -57,6 +57,7 @@ Building from a clean clone needs nothing but Node — reference data is rebuilt
 - Long runs show a progress bar with counts, throughput and estimated time remaining, and can be cancelled.
 - Click any result row to see the molecule's 2D structure.
 - Results export as CSV in the original tool's column format.
+- A collapsible **How the method works** section explains fingerprint selection and the potency score, with the original flow diagrams.
 
 ### Fidelity modes
 

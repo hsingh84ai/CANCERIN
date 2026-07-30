@@ -37,6 +37,12 @@ queryfp
 # ---- local tooling ---------------------------------------------------------
 .claude/
 
+# Saved copy of the original CancerIN "Principle" page, used as the source for
+# the method text and figures. The optimised figures live in webapp/src/assets/;
+# this scraped copy is provenance only and is not part of the project.
+CancerIN_*.html
+CancerIN_*_files/
+
 # ---- editor / OS -----------------------------------------------------------
 .DS_Store
 Thumbs.db

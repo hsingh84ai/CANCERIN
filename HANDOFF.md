@@ -465,6 +465,35 @@ That distinction matters: `file://` is an opaque origin, so Blob-URL workers and
 inline module scripts can behave differently there. It also asserts **zero**
 external requests — the claim of self-containment is tested, not assumed.
 
+### Method section
+
+`MethodSection.svelte` reproduces the two explanatory figures and the method
+description from the original CancerIN server's "Principle" page (source HTML
+saved by the user), lightly edited — the original has numerous typos. Clearly
+attributed to the Raghava group and the paper.
+
+Figures were 2223x3045 and 2381x1868 JPEGs totalling 895 KB. Downscaled and
+re-encoded as WebP at 1400 px / 1100 px wide: **204 KB**, a 77% saving, still
+legible, with click-to-enlarge. WebP is safe here — the app already requires
+Web Workers and ES modules.
+
+They are imported plainly, so the hosted build emits them as separate cacheable
+files and `build-standalone.mjs` folds them into the single file as data URIs.
+`?inline` was tried first; **Vite 5 does not honour it for assets** — it passes
+the query through into the emitted URL. `verify:standalone` asserts both figures
+are data URIs *and* decode to non-zero dimensions, so a broken inline cannot
+pass silently.
+
+⚠️ **The page says 109 fingerprints remain after removing correlated ones;
+`imp-no` ships 108.** Off by one, unexplained — possibly a typo on the page, or
+one further column dropped before release. The app text deliberately says "the
+final selected set used here" rather than quoting either number. Worth resolving
+against the paper if it ever matters.
+
+The page also gives **0.02** as the potency-score threshold for the best
+classification performance. The app reports the raw score and does not classify;
+adding an Active/Inactive verdict at that threshold would be a small change.
+
 ### Verification
 
 `npm run verify:worker` runs the **built** worker bundle under Node with browser shims (Blob, `importScripts`, object URLs) against a live preview server. It exercises the real shipped code path — streaming fetch, engine load, warm-up, scoring, progress, ETA — and asserts NSC 17/185 self-match at TC 1.0, that bad SMILES are reported per-row rather than crashing, and that progress is monotonic and reaches the total.

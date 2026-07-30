@@ -72,13 +72,27 @@ await svg.waitFor({ state: "visible", timeout: 30000 }).catch(() => {});
 const bonds = (await svg.count()) ? await svg.locator("line").count() : 0;
 console.log(`\nstructure: ${bonds} bond lines`);
 
-await page.screenshot({ path: path.join(APP, "shot-standalone.png") });
+// ---- method section: figures must be inlined AND actually decode ------------
+await page.getByRole("button", { name: /How the method works/ }).click();
+await page.locator(".method img").first().waitFor({ state: "visible", timeout: 15000 });
+const figures = await page.locator(".method img").evaluateAll((imgs) =>
+  imgs.map((i) => ({ dataUri: i.src.startsWith("data:"), w: i.naturalWidth, h: i.naturalHeight }))
+);
+console.log(`\nmethod figures: ${figures.length}`);
+for (const f of figures) console.log(`  ${f.w}x${f.h}  data-uri=${f.dataUri}`);
+
+await page.screenshot({ path: path.join(APP, "shot-standalone.png"), fullPage: true });
 await browser.close();
 
 // ---- checks -----------------------------------------------------------------
 if (rows !== 5) problems.push(`expected 5 result rows, got ${rows}`);
 if (bonds < 5) problems.push(`structure did not draw (${bonds} bonds)`);
 if (external.length) problems.push(`made ${external.length} external request(s): ${external.slice(0, 3).join(", ")}`);
+if (figures.length !== 2) problems.push(`expected 2 method figures, got ${figures.length}`);
+for (const f of figures) {
+  if (!f.dataUri) problems.push("a method figure is not inlined as a data URI");
+  if (!f.w || !f.h) problems.push("a method figure failed to decode (0x0)");
+}
 
 console.log();
 if (problems.length) {
