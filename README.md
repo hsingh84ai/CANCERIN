@@ -12,7 +12,8 @@ This is a port of the original Python 2.7 + Java CLI tool published with the pap
 
 | If you want to… | You need | Size |
 |---|---|---|
-| **Just run it** | `webapp/dist/` — a static folder | 1.4 MB |
+| **Just run it** | `cancerin.html` — one file, opens from disk | 1.4 MB |
+| **Host it** | `webapp/dist/` — a static folder | 1.4 MB |
 | **Build the app** | Node 18+ | — |
 | **Rebuild the fingerprint engine** | JDK 17+, Maven and `lib/` | 19 MB |
 
@@ -28,11 +29,18 @@ npm install
 npm run dev            # http://localhost:5173
 ```
 
-To produce the static site:
+To produce the static site, or a single self-contained file:
 
 ```bash
-npm run build          # -> webapp/dist  (~1.4 MB, no backend)
+npm run build              # -> webapp/dist            a static folder
+npm run build:standalone   # -> dist-standalone/cancerin.html
 ```
+
+`cancerin.html` is the whole application in one file — styles, code, the Web
+Worker, the fingerprint engine and all 18,369 reference compounds inlined.
+Double-click it. No server, no install, no network, not even sibling files.
+Verified by opening it over `file://` and asserting it makes zero external
+requests (`npm run verify:standalone`).
 
 `webapp/dist` is self-contained: static files only, no server-side anything.
 Serve it from any host, or open it from disk.
@@ -101,7 +109,10 @@ Failure behaviour matches too: a molecule CDK 1.4.6 cannot type — a selenium c
 ```bash
 node tools/selftest.mjs           # scoring engine
 node tools/verify-js-engine.mjs   # browser engine vs PaDEL (needs the engine built)
-cd webapp && npm run verify:worker && npm run verify:browser
+cd webapp
+npm run verify:worker             # built worker under Node, against a live server
+npm run verify:browser            # real Chromium: progress, ETA, depiction
+npm run verify:standalone         # the single file, opened over file://
 ```
 
 ### A bug in the original distribution

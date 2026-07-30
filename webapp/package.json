@@ -10,7 +10,9 @@
     "build": "npm run sync && vite build",
     "preview": "vite preview",
     "verify:worker": "node scripts/verify-worker.mjs",
-    "verify:browser": "node scripts/verify-browser.mjs"
+    "verify:browser": "node scripts/verify-browser.mjs",
+    "build:standalone": "npm run build && node scripts/build-standalone.mjs",
+    "verify:standalone": "node scripts/verify-standalone.mjs"
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^4.0.0",

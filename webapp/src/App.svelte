@@ -1,6 +1,6 @@
 <script>
   import { onMount, onDestroy } from "svelte";
-  import PredictorWorker from "./lib/predictor.worker.js?worker";
+  import PredictorWorker from "./lib/predictor.worker.js?worker&inline";
   import ProgressPanel from "./components/ProgressPanel.svelte";
   import ResultsTable from "./components/ResultsTable.svelte";
   import { formatClock } from "./lib/format.js";
@@ -75,10 +75,17 @@
       phase = "error";
     };
     // Load immediately so the engine is ready by the time input is typed.
-    worker.postMessage({
-      type: "init",
-      baseUrl: new URL(import.meta.env.BASE_URL, location.href).href,
-    });
+    // The single-file build carries its assets in the page, so there is nothing
+    // to fetch — see webapp/scripts/build-standalone.mjs.
+    const inlined = globalThis.__CANCERIN_INLINE__;
+    if (inlined) {
+      worker.postMessage({ type: "initInline", ...inlined });
+    } else {
+      worker.postMessage({
+        type: "init",
+        baseUrl: new URL(import.meta.env.BASE_URL, location.href).href,
+      });
+    }
   });
 
   onDestroy(() => worker?.terminate());

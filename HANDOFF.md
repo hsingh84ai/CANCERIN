@@ -439,6 +439,32 @@ Salts and mixtures are handled: `Depict` partitions into connected fragments wit
 
 Depiction is deliberately separate from `Fingerprint108` — it perceives aromaticity, which the scoring path must **not** do. It cannot affect a score.
 
+### Single-file build
+
+`npm run build:standalone` packs everything into one `cancerin.html` (1.40 MB):
+styles, app, the Web Worker, the TeaVM engine, the packed background bitset
+(base64) and the annotations. It opens straight from disk.
+
+Two things make it possible:
+
+- The worker is imported with `?worker&inline`, so Vite embeds it as a base64
+  data URL instead of a sibling file. The worker is only ~5 KB, so this costs
+  the hosted build nothing and removes a request.
+- The worker gained an `initInline` message. Normally it *fetches* its assets
+  (which is what gives the loading bar real byte progress); in the single-file
+  build the page hands them over directly and nothing is fetched.
+
+Payloads are embedded as `<script type="text/plain">` blocks rather than JS
+string literals — no escaping of ~1 MB of source, and a smaller file. Any
+`</script` inside them is rewritten to `<\/script`, which is safe in both JS
+source and JSON. The blocks are removed from the DOM once read so the text is
+not retained.
+
+⚠️ **`npm run verify:standalone` opens it over `file://`, not a preview server.**
+That distinction matters: `file://` is an opaque origin, so Blob-URL workers and
+inline module scripts can behave differently there. It also asserts **zero**
+external requests — the claim of self-containment is tested, not assumed.
+
 ### Verification
 
 `npm run verify:worker` runs the **built** worker bundle under Node with browser shims (Blob, `importScripts`, object URLs) against a live preview server. It exercises the real shipped code path — streaming fetch, engine load, warm-up, scoring, progress, ETA — and asserts NSC 17/185 self-match at TC 1.0, that bad SMILES are reported per-row rather than crashing, and that progress is monotonic and reaches the total.

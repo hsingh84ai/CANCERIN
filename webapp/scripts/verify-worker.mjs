@@ -16,13 +16,23 @@ const HERE = path.dirname(fileURLToPath(import.meta.url));
 const APP = path.resolve(HERE, "..");
 const BASE = process.argv[2] || "http://localhost:4173/";
 
+// The worker is inlined into the main bundle by Vite (?worker&inline) as a
+// base64 data URL, so there is no standalone worker file to load. Extract it
+// back out — this still exercises the exact bytes that ship.
 const assets = path.join(APP, "dist", "assets");
-const workerFile = fs.readdirSync(assets).find((f) => /^predictor\.worker-.*\.js$/.test(f));
-if (!workerFile) {
-  console.error("no built worker found in dist/assets — run `npm run build` first");
+const mainFile = fs.readdirSync(assets).find((f) => /^index-.*\.js$/.test(f));
+if (!mainFile) {
+  console.error("no built bundle found in dist/assets — run `npm run build` first");
   process.exit(1);
 }
-console.log(`worker bundle: ${workerFile}`);
+const bundle = fs.readFileSync(path.join(assets, mainFile), "utf8");
+const b64 = bundle.match(/const\s+(\w+)\s*=\s*"([A-Za-z0-9+/=]{5000,})"/);
+if (!b64) {
+  console.error("could not find the inlined worker payload in " + mainFile);
+  process.exit(1);
+}
+const workerSource = Buffer.from(b64[2], "base64").toString("utf8");
+console.log(`worker: extracted from ${mainFile} (${(workerSource.length / 1024).toFixed(1)} KB)`);
 
 // ---- browser shims ----------------------------------------------------------
 const blobs = new Map();
@@ -50,7 +60,9 @@ const self = {
   importScripts: (url) => {
     const blob = blobs.get(url);
     if (!blob) throw new Error(`importScripts: unknown url ${url}`);
-    const src = new TextDecoder().decode(new Uint8Array(blob.parts[0]));
+    // Blob parts may be a string (inline init) or an ArrayBuffer (fetch init).
+    const part = blob.parts[0];
+    const src = typeof part === "string" ? part : new TextDecoder().decode(new Uint8Array(part));
     // UMD: with exports/define undefined it attaches to `self`.
     new Function("self", "exports", "define", "module", src)(self, undefined, undefined, undefined);
   },
@@ -72,8 +84,7 @@ function onMessage(m) {
 }
 
 // ---- load the worker --------------------------------------------------------
-const src = fs.readFileSync(path.join(assets, workerFile), "utf8");
-new Function("self", "Blob", "URL", src)(self, FakeBlob, FakeURL);
+new Function("self", "Blob", "URL", workerSource)(self, FakeBlob, FakeURL);
 
 const send = (msg) => self.onmessage({ data: msg });
 

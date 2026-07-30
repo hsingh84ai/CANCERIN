@@ -5,7 +5,10 @@
 // unpaintable — the one thing it exists to avoid.
 //
 // Protocol
-//   in  { type: "init", baseUrl }
+//   in  { type: "init", baseUrl }                     fetches its assets
+//       { type: "initInline", engine, background, annotations }
+//                                                    single-file build: assets
+//                                                    are handed over directly
 //       { type: "run", items: [{ id, smiles }], mode }
 //       { type: "cancel" }
 //       { type: "depict", id, smiles }
@@ -52,6 +55,48 @@ async function fetchWithProgress(url, onChunk) {
   return { buffer: buffer.buffer, length: received };
 }
 
+/** Shared tail of both init paths: load the engine, warm up, announce ready. */
+function finishInit(engineSource, backgroundBuffer, annotationsText) {
+  // The engine is a UMD bundle; in a classic worker it attaches to self.
+  const blob = new Blob([engineSource], { type: "text/javascript" });
+  self.importScripts(URL.createObjectURL(blob));
+  if (typeof self.fingerprint !== "function") throw new Error("engine did not export fingerprint()");
+  if (typeof self.main === "function") self.main([]);
+  engine = {
+    fingerprint: self.fingerprint.bind(self),
+    lastError: self.lastError?.bind(self),
+    depict: self.depict?.bind(self),
+  };
+
+  background = new Uint32Array(backgroundBuffer);
+  annotations = JSON.parse(annotationsText);
+
+  // Warm up. The first call pays TeaVM's one-off class initialisation, which
+  // would otherwise land in the first timing sample and inflate the ETA for
+  // the whole run.
+  self.postMessage({ type: "status", detail: "Warming up" });
+  try { engine.fingerprint("CCO"); } catch { /* warm-up failure is not fatal */ }
+
+  self.postMessage({
+    type: "ready",
+    background: annotations.backgroundRows,
+    actives: annotations.ncititles.length,
+  });
+}
+
+function base64ToBuffer(b64) {
+  const bin = atob(b64);
+  const bytes = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+  return bytes.buffer;
+}
+
+/** Single-file build: nothing to fetch, the page carried the assets with it. */
+function initInline(payload) {
+  self.postMessage({ type: "status", detail: "Preparing engine" });
+  finishInit(payload.engine, base64ToBuffer(payload.background), payload.annotations);
+}
+
 async function init(baseUrl) {
   const url = (p) => new URL(p, baseUrl).href;
 
@@ -72,31 +117,11 @@ async function init(baseUrl) {
   const bg = await fetchWithProgress(url("data/background.bin"), bump);
   const ann = await fetchWithProgress(url("data/annotations.json"), bump);
 
-  // The engine is a UMD bundle; in a classic worker it attaches to self.
-  const blob = new Blob([eng.buffer], { type: "text/javascript" });
-  self.importScripts(URL.createObjectURL(blob));
-  if (typeof self.fingerprint !== "function") throw new Error("engine did not export fingerprint()");
-  if (typeof self.main === "function") self.main([]);
-  engine = {
-    fingerprint: self.fingerprint.bind(self),
-    lastError: self.lastError?.bind(self),
-    depict: self.depict?.bind(self),
-  };
-
-  background = new Uint32Array(bg.buffer);
-  annotations = JSON.parse(new TextDecoder().decode(ann.buffer));
-
-  // Warm up. The first call pays TeaVM's one-off class initialisation, which
-  // would otherwise land in the first timing sample and inflate the ETA for
-  // the whole run.
-  self.postMessage({ type: "status", detail: "Warming up" });
-  try { engine.fingerprint("CCO"); } catch { /* warm-up failure is not fatal */ }
-
-  self.postMessage({
-    type: "ready",
-    background: annotations.backgroundRows,
-    actives: annotations.ncititles.length,
-  });
+  finishInit(
+    new TextDecoder().decode(eng.buffer),
+    bg.buffer,
+    new TextDecoder().decode(ann.buffer)
+  );
 }
 
 function scoreOne(item, mode) {
@@ -176,6 +201,7 @@ self.onmessage = async (e) => {
   const msg = e.data;
   try {
     if (msg.type === "init") await init(msg.baseUrl);
+    else if (msg.type === "initInline") initInline(msg);
     else if (msg.type === "run") await run(msg.items, msg.mode);
     else if (msg.type === "cancel") cancelled = true;
     else if (msg.type === "depict") depict(msg.id, msg.smiles);

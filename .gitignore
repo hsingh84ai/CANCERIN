@@ -8,6 +8,7 @@
 # the app can be built with Node alone, without a JDK, Maven or lib/.
 engine/target/
 webapp/dist/
+webapp/dist-standalone/
 webapp/node_modules/
 
 # Copied into the webapp by webapp/scripts/sync-assets.mjs
