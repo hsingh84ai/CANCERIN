@@ -1,11 +1,15 @@
 <script>
   import MoleculeView from "./MoleculeView.svelte";
+  import { ACTIVE_THRESHOLD } from "../lib/scoring.generated.js";
 
   let { rows, structures, onRequestStructure } = $props();
 
   let openId = $state(null);
 
   const failures = $derived(rows.filter((r) => !r.ok).length);
+
+  const activeCount = $derived(rows.filter((r) => r.ok && r.prediction === "active").length);
+  const scored = $derived(rows.filter((r) => r.ok).length);
 
   const num = (v, digits = 3) =>
     v == null || v === "" ? "—" : Number(v).toFixed(digits);
@@ -31,7 +35,12 @@
 
 <div class="head">
   <h2>Results <span class="count">{rows.length.toLocaleString()}</span></h2>
-  <p class="hint">Select a row to see its structure</p>
+  <p class="hint">
+    {#if scored}
+      <strong>{activeCount.toLocaleString()}</strong> predicted active of {scored.toLocaleString()} ·
+    {/if}
+    select a row to see its structure
+  </p>
   {#if failures}
     <p class="failures">{failures} molecule{failures === 1 ? "" : "s"} could not be processed</p>
   {/if}
@@ -43,6 +52,7 @@
       <tr>
         <th scope="col"><span class="sr-only">Expand</span></th>
         <th scope="col">Query</th>
+        <th scope="col">Prediction</th>
         <th scope="col">Match NSC</th>
         <th scope="col">PubChem SID</th>
         <th scope="col" class="n">Mean log GI50</th>
@@ -68,19 +78,20 @@
             <span class="smiles" title={r.smiles}>{r.smiles}</span>
           </td>
           {#if r.ok}
+            <td><span class="verdict {r.prediction}">{r.prediction}</span></td>
             <td>{r.matchNscId}</td>
             <td>{r.matchPubchemSid ?? "—"}</td>
             <td class="n">{num(r.meanLogGI50)}</td>
             <td class="n">{num(r.potencyScore)}</td>
             <td class="n">{num(r.maxTanimoto)}</td>
           {:else}
-            <td colspan="5" class="err">{r.error}</td>
+            <td colspan="6" class="err">{r.error}</td>
           {/if}
         </tr>
 
         {#if open}
           <tr class="detail">
-            <td colspan="7">
+            <td colspan="8">
               <div class="detail-body">
                 <div class="structure">
                   {#if structures.has(r.id)}
@@ -98,6 +109,11 @@
                   <dt>SMILES</dt>
                   <dd class="mono wrap">{r.smiles}</dd>
                   {#if r.ok}
+                    <dt>Prediction</dt>
+                    <dd>
+                      <span class="verdict {r.prediction}">{r.prediction}</span>
+                      <span class="threshold">potency {num(r.potencyScore, 4)} vs threshold {ACTIVE_THRESHOLD}</span>
+                    </dd>
                     <dt>Closest active</dt>
                     <dd>NSC {r.matchNscId}{#if r.matchPubchemSid} · PubChem SID {r.matchPubchemSid}{/if}</dd>
                     <dt>Mean log GI50</dt>
@@ -191,6 +207,21 @@
   }
 
   .failed .err { color: var(--warn); font-style: italic; white-space: normal; }
+
+  .verdict {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    padding: 0.12rem 0.45rem;
+    border-radius: 4px;
+    border: 1px solid transparent;
+  }
+  .verdict.active { color: var(--ok); border-color: var(--ok); background: var(--ok-bg); }
+  .verdict.inactive { color: var(--muted); border-color: var(--line); }
+
+  .threshold { color: var(--muted); font-size: 0.76rem; margin-left: 0.5rem; }
 
   .detail td { background: var(--hover); padding: 0 0.7rem 0.9rem; }
 

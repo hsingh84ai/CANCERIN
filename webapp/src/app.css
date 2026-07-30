@@ -10,6 +10,8 @@
   --accent: #b0552b;
   --on-accent: #ffffff;
   --warn: #a33d2a;
+  --ok: #2f7d4f;
+  --ok-bg: #eaf5ee;
   color-scheme: light;
 }
 
@@ -25,6 +27,8 @@
     --accent: #e08a5c;
     --on-accent: #1a1a19;
     --warn: #e8836b;
+    --ok: #6fc48d;
+    --ok-bg: #1c2c22;
     color-scheme: dark;
   }
 }

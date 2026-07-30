@@ -50,6 +50,12 @@ public final class Depict {
             // Aromatic rings will just be drawn as alternating bonds.
         }
 
+        // Explicit hydrogens arrive from stereo-annotated SMILES like [C@H] and
+        // would be drawn as bare "H" vertices. We do not render stereo wedges,
+        // so they add noise without conveying anything; suppress them into
+        // implicit counts, as depictions conventionally do.
+        mol = AtomContainerManipulator.removeHydrogens(mol);
+
         // Salts and mixtures are common in this dataset and CDK lays out one
         // connected fragment at a time, so place fragments side by side.
         IMoleculeSet parts = ConnectivityChecker.partitionIntoMolecules(mol);

@@ -126,13 +126,17 @@
     ].join("\n");
   }
 
-  /** The legacy CANCERIN.py output format, so results drop into existing tooling. */
+  /**
+   * The legacy CANCERIN.py output format, so results drop into existing tooling.
+   * Prediction is appended as a 7th column: the original six keep their exact
+   * names, order and positions, so anything reading by index still works.
+   */
   function exportCsv() {
-    const header = "#Qurey,Match_nscID,Match_pubchemSID,Mean_logGI50,Potency_Score,Maximum_tanimoto_Similarity_Score";
+    const header = "#Qurey,Match_nscID,Match_pubchemSID,Mean_logGI50,Potency_Score,Maximum_tanimoto_Similarity_Score,Prediction";
     const body = rows.map((r) =>
       r.ok
-        ? [r.id, r.matchNscId, r.matchPubchemSid, r.meanLogGI50, r.potencyScore, r.maxTanimoto].join(",")
-        : [r.id, "", "", "", "", ""].join(",")
+        ? [r.id, r.matchNscId, r.matchPubchemSid, r.meanLogGI50, r.potencyScore, r.maxTanimoto, r.prediction].join(",")
+        : [r.id, "", "", "", "", "", ""].join(",")
     );
     const blob = new Blob([[header, ...body].join("\n") + "\n"], { type: "text/csv" });
     const a = document.createElement("a");

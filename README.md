@@ -56,7 +56,8 @@ Building from a clean clone needs nothing but Node — reference data is rebuilt
 - Or upload a `.smi` / `.txt` / `.csv` file.
 - Long runs show a progress bar with counts, throughput and estimated time remaining, and can be cancelled.
 - Click any result row to see the molecule's 2D structure.
-- Results export as CSV in the original tool's column format.
+- Each result is labelled **active** or **inactive** using the published potency-score threshold of 0.02.
+- Results export as CSV in the original tool's column format, with `Prediction` appended as a seventh column — the original six keep their exact names, order and positions.
 - A collapsible **How the method works** section explains fingerprint selection and the potency score, with the original flow diagrams.
 
 ### Fidelity modes
@@ -70,7 +71,7 @@ The original sliced `arr[0:8564]` and `arr[8565:18368]` where it meant `arr[0:85
 
 ### Interpreting the score
 
-`Potency score = max similarity to any active − max similarity to any inactive`. Positive suggests the molecule resembles actives more than inactives.
+`Potency score = max similarity to any active − max similarity to any inactive`, ranging from −1 to +1. The original work found **0.02** to be the threshold giving the best classification performance, and the app labels each result active or inactive on that basis. The raw score is always shown alongside, since the verdict is only a threshold applied to it — `CANCERIN.py` itself reports the score and never classifies.
 
 ⚠️ The method takes `max(TC1, TC0)`, where TC0 measures agreement on *absent* features. For sparse fingerprints TC0 dominates, so the reported "maximum Tanimoto" (often ~0.83 even for unrelated molecules) is usually TC0, not conventional similarity. That is inherent to the published method, not an artefact of the port.
 

@@ -491,8 +491,21 @@ final selected set used here" rather than quoting either number. Worth resolving
 against the paper if it ever matters.
 
 The page also gives **0.02** as the potency-score threshold for the best
-classification performance. The app reports the raw score and does not classify;
-adding an Active/Inactive verdict at that threshold would be a small change.
+classification performance. This is now implemented: `ACTIVE_THRESHOLD` and
+`classify()` in `scoring.mjs`, surfaced as a badge per row, a "N predicted active
+of M" summary, and a `Prediction` column appended to the CSV (the original six
+columns keep their names, order and positions, so index-based parsers still
+work). The raw score is always shown beside the verdict.
+
+⚠️ The verdict is **presentation only**. `CANCERIN.py` reports the score and
+never classifies, so nothing in the verified scoring path depends on the
+threshold — `annotate()` gained a field, and selftest still passes 13/13.
+
+While reviewing the depiction, cycloheximide was rendering bare `H` vertices:
+stereo-annotated SMILES like `[C@H]` produce explicit hydrogens, and since no
+stereo wedges are drawn they were pure noise. `Depict` now calls
+`AtomContainerManipulator.removeHydrogens` before layout, as depictions
+conventionally do. Depiction-only; the engine still scores 41/41.
 
 ### Verification
 

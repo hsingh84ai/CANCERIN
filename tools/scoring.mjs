@@ -104,6 +104,21 @@ export function score(query, background, rows, mode = "legacy") {
   };
 }
 
+/**
+ * Potency-score threshold above which a molecule is called active.
+ *
+ * From the original CancerIN server: the score ranges from -1 to +1 and 0.02
+ * gave the best classification performance. This is a presentation-layer
+ * verdict only — CANCERIN.py reports the raw score and never classifies, so
+ * nothing about the scoring itself depends on it.
+ */
+export const ACTIVE_THRESHOLD = 0.02;
+
+/** "active" or "inactive" for a potency score, per ACTIVE_THRESHOLD. */
+export function classify(potencyScore) {
+  return potencyScore >= ACTIVE_THRESHOLD ? "active" : "inactive";
+}
+
 /** Attach NSC/SID/GI50 annotations to a raw score. */
 export function annotate(result, ann) {
   const nsc = ann.ncititles[result.activeRow];
@@ -113,5 +128,6 @@ export function annotate(result, ann) {
     meanLogGI50: ann.GI50[nsc],
     potencyScore: result.potencyScore,
     maxTanimoto: result.maxActiveTC,
+    prediction: classify(result.potencyScore),
   };
 }
